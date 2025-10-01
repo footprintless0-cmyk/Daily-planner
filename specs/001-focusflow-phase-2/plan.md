@@ -78,7 +78,7 @@ apps/
     │   │   ├── calendar/
     │   │   ├── focus/
     │   │   └── settings/
-    │   ├── api/
+    │   ├── api/              # Next.js API routes serving as backend functionality
     │   ├── components/
     │   │   ├── ui/           # shadcn/ui components
     │   │   ├── tasks/
@@ -86,7 +86,7 @@ apps/
     │   │   ├── calendar/
     │   │   └── focus-room/
     │   ├── lib/
-    │   │   ├── prisma/
+    │   │   ├── prisma/       # Prisma database access
     │   │   ├── utils/
     │   │   └── hooks/
     │   ├── styles/
@@ -98,31 +98,17 @@ apps/
     ├── tsconfig.json
     └── next.config.js
 
-backend/
-├── prisma/
-│   ├── schema.prisma
-│   └── seed.ts
-├── src/
-│   ├── lib/
-│   ├── middleware/
-│   └── services/
-└── tests/
-    ├── contract/
-    ├── integration/
-    └── unit/
-
-shared/
-├── constants/
-├── utils/
-└── types/
+prisma/
+├── schema.prisma
+└── seed.ts
 
 tests/
 ├── contract/
 ├── integration/
-└── e2e/
+└── unit/
 ```
 
-**Structure Decision**: Web application with Next.js App Router; frontend and backend are combined in the Next.js application, with database access via Prisma. The structure separates UI components, business logic, and data access layers according to Next.js conventions.
+**Structure Decision**: Web application with Next.js App Router; frontend and backend are combined in the Next.js application, with database access via Prisma. Next.js API routes serve as backend functionality. The structure separates UI components, business logic, and data access layers according to Next.js conventions.
 
 ## Phase 0: Outline & Research
 1. **Extract unknowns from Technical Context** above:

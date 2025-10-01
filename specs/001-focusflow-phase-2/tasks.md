@@ -58,6 +58,7 @@
 - [T008] [P] Integration test for Kanban drag-and-drop workflow in tests/integration/kanban-dnd.test.ts
 - [T009] [P] Integration test for focus timer workflow in tests/integration/focus-timer.test.ts
 - [T010] [P] Integration test for user data export workflow in tests/integration/user-export.test.ts
+- [T011] [P] Cross-layer integration test for drag-and-drop real-time sync in tests/integration/kanban-sync.test.ts
 
 ## Phase 3.3: Core Implementation (ONLY after tests are failing)
 - [T011] [P] User model in prisma/schema.prisma and generated client
@@ -85,46 +86,61 @@
 - [T033] GET /api/user/export endpoint implementation in apps/focusflow/app/api/user/export/route.ts
 - [T034] DELETE /api/user endpoint implementation in apps/focusflow/app/api/user/route.ts
 - [T035] POST /api/user/templates endpoint implementation in apps/focusflow/app/api/user/templates/route.ts
+- [T036] Configure NextAuth sessions with secure settings in apps/focusflow/lib/auth.ts
+- [T037] Implement security headers (CSP, HSTS, XFO) in apps/focusflow/next.config.js
+- [T038] Add CSRF protection for mutating actions in apps/focusflow/middleware.ts
 
 ## Phase 3.4: UI Implementation
-- [T036] [P] Create base layout and navigation components in apps/focusflow/components/layout/
-- [T037] [P] Create task form component in apps/focusflow/components/tasks/
-- [T038] [P] Create task card component in apps/focusflow/components/tasks/
-- [T039] Create task list view in apps/focusflow/app/list/page.tsx
-- [T040] Create kanban board component with dnd-kit in apps/focusflow/components/kanban/
-- [T041] Create drag and drop context in apps/focusflow/lib/dnd.ts
-- [T042] Create kanban view page in apps/focusflow/app/kanban/page.tsx
-- [T043] Create calendar component with FullCalendar in apps/focusflow/components/calendar/
-- [T044] Create calendar view page in apps/focusflow/app/calendar/page.tsx
-- [T045] Create focus room timer component in apps/focusflow/components/focus/
-- [T046] Create focus room page with session tracking in apps/focusflow/app/focus/page.tsx
-- [T047] Create reminder configuration UI in apps/focusflow/components/notifications/
-- [T048] Create user profile settings page in apps/focusflow/app/settings/page.tsx
-- [T049] Create user data export/delete UI in apps/focusflow/app/settings/export-delete.tsx
-- [T050] Create template selection UI for onboarding in apps/focusflow/app/onboarding/
+- [T039] [P] Create base layout and navigation components in apps/focusflow/components/layout/
+- [T040] [P] Create task form component in apps/focusflow/components/tasks/
+- [T041] [P] Create task card component in apps/focusflow/components/tasks/
+- [T042] Create task list view in apps/focusflow/app/list/page.tsx
+- [T043] Create kanban board component with dnd-kit in apps/focusflow/components/kanban/
+- [T044] Create drag and drop context in apps/focusflow/lib/dnd.ts
+- [T045] Create kanban view page in apps/focusflow/app/kanban/page.tsx
+- [T046] Create calendar component with FullCalendar in apps/focusflow/components/calendar/
+- [T047] Create calendar view page in apps/focusflow/app/calendar/page.tsx
+- [T048] Create focus room timer component in apps/focusflow/components/focus/
+- [T049] Create focus room page with session tracking in apps/focusflow/app/focus/page.tsx
+- [T050] Create reminder configuration UI in apps/focusflow/components/notifications/
+- [T051] Create user profile settings page in apps/focusflow/app/settings/page.tsx
+- [T052] Create user data export/delete UI in apps/focusflow/app/settings/export-delete.tsx
+- [T053] Create template selection UI for onboarding in apps/focusflow/app/onboarding/
+- [T054] Implement accessibility features for WCAG AA compliance in components
+- [T055] Add keyboard navigation support for all interactive elements
+- [T056] Add screen reader support with proper ARIA attributes
 
 ## Phase 3.5: PWA & Offline Functionality
-- [T051] Configure next-pwa for offline capabilities in apps/focusflow/next.config.js
-- [T052] Implement service worker for offline task read operations
-- [T053] Implement background sync for offline task creation in apps/focusflow/lib/offline-sync.ts
-- [T054] Create PWA manifest in apps/focusflow/public/manifest.json
+- [T054] Configure next-pwa for offline capabilities in apps/focusflow/next.config.js
+- [T055] Implement service worker for offline task read operations
+- [T056] Implement background sync for offline task creation in apps/focusflow/lib/offline-sync.ts
+- [T057] Create PWA manifest in apps/focusflow/public/manifest.json
 
-## Phase 3.6: Polish & Testing
-- [T055] [P] Unit tests for time calculation utilities in apps/focusflow/__tests__/time.test.ts
-- [T056] [P] Unit tests for task service in apps/focusflow/__tests__/tasks.test.ts
-- [T057] [P] Unit tests for session service in apps/focusflow/__tests__/sessions.test.ts
-- [T058] [P] Unit tests for user service in apps/focusflow/__tests__/users.test.ts
-- [T059] Update docs/api.md with API documentation
-- [T060] Remove duplication in code and improve performance
-- [T061] Run end-to-end tests with Cypress in cypress/e2e/
+## Phase 3.6: Performance & Optimization
+- [T058] Implement performance optimizations for drag-and-drop with 200+ cards <100ms response time
+- [T059] Implement Lighthouse performance optimization to achieve ≥90 scores
+- [T060] Add performance monitoring and measurement tools
+- [T061] Optimize calendar timezone synchronization
+
+## Phase 3.7: Polish & Testing
+- [T062] [P] Unit tests for time calculation utilities in apps/focusflow/__tests__/time.test.ts
+- [T063] [P] Unit tests for task service in apps/focusflow/__tests__/tasks.test.ts
+- [T064] [P] Unit tests for session service in apps/focusflow/__tests__/sessions.test.ts
+- [T065] [P] Unit tests for user service in apps/focusflow/__tests__/users.test.ts
+- [T066] Update docs/api.md with API documentation
+- [T067] Add handling for edge cases: timezone differences, push notification blocks, large background images
+- [T068] Run end-to-end tests with Cypress in cypress/e2e/
 
 ## Dependencies
-- Tests (T004-T010) before implementation (T011-T054)
-- T011, T012, T013, T014 (models) before T017, T019, T020 (services)
-- T017 (task service) before T021-T025 (task endpoints)
-- T019 (session service) before T026-T030 (session endpoints)
-- T020 (user service) before T031-T035 (user endpoints)
-- Implementation before polish (T055-T061)
+- Tests (T004-T011) before implementation (T012-T057)
+- T012, T013, T014, T015 (models) before T018, T020, T021 (services)
+- T018 (task service) before T022-T026 (task endpoints)
+- T020 (session service) before T027-T031 (session endpoints)
+- T021 (user service) before T032-T036 (user endpoints)
+- T016 (auth service) before security tasks T037-T038
+- T039-T053 (UI components) before accessibility tasks T054-T056
+- Implementation before performance (T058-T061)
+- Performance before polish (T062-T068)
 
 ## Parallel Example
 ```
@@ -155,8 +171,14 @@ Task: "Contract test for user endpoints in tests/contract/user-api.test.ts"
    - Each story → integration test [P]
    - Quickstart scenarios → validation tasks
 
-4. **Ordering**:
-   - Setup → Tests → Models → Services → Endpoints → Polish
+4. **From Constitution**:
+   - Security requirements → security implementation tasks
+   - Performance standards → performance optimization tasks
+   - Accessibility standards → accessibility implementation tasks
+   - Cross-layer integration → integration test tasks
+   
+5. **Ordering**:
+   - Setup → Tests → Models → Services → Security → Endpoints → UI → PWA → Performance → Polish
    - Dependencies block parallel execution
 
 ## Validation Checklist
@@ -164,6 +186,7 @@ Task: "Contract test for user endpoints in tests/contract/user-api.test.ts"
 
 - [ ] All contracts have corresponding tests
 - [ ] All entities have model tasks
+- [ ] All constitutional requirements have tasks (security, accessibility, performance)
 - [ ] All tests come before implementation
 - [ ] Parallel tasks truly independent
 - [ ] Each task specifies exact file path
