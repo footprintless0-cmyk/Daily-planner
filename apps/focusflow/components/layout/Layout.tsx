@@ -3,15 +3,13 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { signOut, useSession } from 'next-auth/react';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
-  const { data: session } = useSession();
 
   const navigation = [
-    { name: 'Dashboard', href: '/dashboard' },
+    { name: 'Dashboard', href: '/' },
     { name: 'Kanban', href: '/kanban' },
     { name: 'List', href: '/list' },
     { name: 'Calendar', href: '/calendar' },
@@ -51,21 +49,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
             <div className="hidden md:block">
               <div className="ml-4 flex items-center md:ml-6">
-                {session ? (
-                  <button
-                    onClick={() => signOut()}
-                    className="text-indigo-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                  >
-                    Sign out
-                  </button>
-                ) : (
-                  <Link
-                    href="/auth/signin"
-                    className="text-indigo-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                  >
-                    Sign in
-                  </Link>
-                )}
+                <Link
+                  href="/auth/signin"
+                  className="text-indigo-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Sign in
+                </Link>
               </div>
             </div>
             <div className="-mr-2 flex md:hidden">
@@ -108,21 +97,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   {item.name}
                 </Link>
               ))}
-              {session ? (
-                <button
-                  onClick={() => signOut()}
-                  className="text-indigo-100 hover:text-white block px-3 py-2 rounded-md text-base font-medium w-full text-left"
-                >
-                  Sign out
-                </button>
-              ) : (
-                <Link
-                  href="/auth/signin"
-                  className="text-indigo-100 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                >
-                  Sign in
-                </Link>
-              )}
+              <Link
+                href="/auth/signin"
+                className="text-indigo-100 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+              >
+                Sign in
+              </Link>
             </div>
           </div>
         )}
