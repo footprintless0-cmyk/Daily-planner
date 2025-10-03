@@ -4,11 +4,10 @@ import { getSessionById, updateSession, deleteSession } from '@/lib/sessions';
 import { calculateSessionDuration, calculateEffectiveness } from '@/lib/sessions';
 
 // GET /api/sessions/[id]
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-  const { id } = params;
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = await params;
+  const id = resolvedParams.id as string; // Type assertion - we know id will always be present in dynamic routes
   
-  // In Next.js dynamic routes, the id parameter is guaranteed to be present
-  // Type assertion since we know it will always be a string
   try {
     // Authenticate the request
     const session = await auth();
@@ -22,7 +21,6 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     const userId = session.user.id;
 
     // Get the session
-    // Using non-null assertion since we know id will always be a string in a dynamic route
     const sessionData = await getSessionById(id, userId);
 
     if (!sessionData) {
@@ -57,11 +55,10 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 }
 
 // PUT /api/sessions/[id]
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
-  const { id } = params;
+export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = await params;
+  const id = resolvedParams.id as string; // Type assertion - we know id will always be present in dynamic routes
   
-  // In Next.js dynamic routes, the id parameter is guaranteed to be present
-  // Type assertion since we know it will always be a string
   try {
     // Authenticate the request
     const session = await auth();
@@ -87,7 +84,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     const body = await req.json();
 
     // Update the session
-    const updatedSession = await updateSession(id, userId, {
+    const updatedSession = await updateSession(id!, userId, {
       endAt: body.endAt ? new Date(body.endAt) : undefined,
       actualMins: body.actualMins,
       notes: body.notes,
@@ -118,11 +115,10 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 }
 
 // DELETE /api/sessions/[id]
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
-  const { id } = params;
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = await params;
+  const id = resolvedParams.id as string; // Type assertion - we know id will always be present in dynamic routes
   
-  // In Next.js dynamic routes, the id parameter is guaranteed to be present
-  // Type assertion since we know it will always be a string
   try {
     // Authenticate the request
     const session = await auth();
@@ -145,7 +141,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
     }
 
     // Delete the session
-    const success = await deleteSession(id, userId);
+    const success = await deleteSession(id!, userId);
 
     if (!success) {
       return new Response(

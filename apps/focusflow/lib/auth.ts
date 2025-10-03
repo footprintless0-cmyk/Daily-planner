@@ -63,6 +63,10 @@ export const {
   },
   // Security settings
   trustHost: true, // Allow connections from any host in development
+  // Explicitly set URLs for Codespaces
+  redirectProxyUrl: process.env.NEXTAUTH_REDIRECT_PROXY_URL || process.env.NEXTAUTH_URL,
+  // Set the full URLs explicitly for Codespaces
+  url: process.env.NEXTAUTH_URL,
   // Add additional security measures
   events: {
     // Add event handling for security logging if needed

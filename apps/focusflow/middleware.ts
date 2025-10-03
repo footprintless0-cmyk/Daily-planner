@@ -4,6 +4,11 @@ import { getToken } from 'next-auth/jwt';
 
 // Specify which routes require authentication
 export async function middleware(req: NextRequest) {
+  // Skip authentication in development
+  if (process.env.NODE_ENV === 'development') {
+    return NextResponse.next();
+  }
+
   // Define routes that require authentication
   const protectedPaths = [
     /^\/api\/(?!auth\/)/, // All API routes except auth-related ones

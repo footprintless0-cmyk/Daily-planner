@@ -1,5 +1,5 @@
-import { PrismaClient, Task } from '@prisma/client';
-import prisma from '@/lib/prisma';
+import { Task } from '@prisma/client';
+import prisma from '../lib/prisma';
 
 export interface CreateTaskData {
   userId: string;

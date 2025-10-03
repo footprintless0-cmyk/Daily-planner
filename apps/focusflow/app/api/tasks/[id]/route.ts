@@ -3,8 +3,9 @@ import { auth } from '@/lib/auth';
 import { getTaskById, updateTask, deleteTask, calculateETA, calculateTimeLeft } from '@/lib/tasks';
 
 // GET /api/tasks/[id]
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-  const { id } = params;
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = await params;
+  const id = resolvedParams.id as string; // Type assertion - we know id will always be present in dynamic routes
   
   // In Next.js dynamic routes, the id parameter is guaranteed to be present
   // Type assertion since we know it will always be a string
@@ -56,8 +57,9 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 }
 
 // PUT /api/tasks/[id]
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
-  const { id } = params;
+export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = await params;
+  const id = resolvedParams.id as string; // Type assertion - we know id will always be present in dynamic routes
   
   // In Next.js dynamic routes, the id parameter is guaranteed to be present
   // Type assertion since we know it will always be a string
@@ -191,8 +193,9 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 }
 
 // DELETE /api/tasks/[id]
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
-  const { id } = params;
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = await params;
+  const id = resolvedParams.id as string; // Type assertion - we know id will always be present in dynamic routes
   
   // In Next.js dynamic routes, the id parameter is guaranteed to be present
   // Type assertion since we know it will always be a string
