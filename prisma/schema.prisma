@@ -1,0 +1,124 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../apps/focusflow/src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite" // Using SQLite for development, can be changed to postgresql for production
+  url      = env("DATABASE_URL")
+}
+
+enum TaskType {
+  task
+  exam
+  meeting
+}
+
+enum TaskStatus {
+  Backlog
+  Todo
+  Doing
+  Done
+}
+
+enum TaskPriority {
+  Low
+  Medium
+  High
+  Urgent
+}
+
+enum SessionType {
+  Pomodoro
+  Custom
+}
+
+enum ReminderChannel {
+  push
+  email
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  timezone  String   @default("UTC")
+  settings  Json? // Optional, key-value pairs for user preferences
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  tasks     Task[]
+  sessions  Session[]
+  reminders Reminder[]
+}
+
+model Task {
+  id          String       @id @default(uuid())
+  userId      String
+  title       String
+  description String?
+  type        TaskType
+  status      TaskStatus
+  priority    TaskPriority
+  tags        String // Storing as JSON string since SQLite doesn't support arrays
+  dueAt       DateTime?
+  estimateHrs Float? // If provided, must be a positive number
+  spentHrs    Float        @default(0.0) // Cannot exceed estimateHrs
+  attachments Json? // Array of attachment objects with URL and name
+  reminders   String // Storing as JSON string since SQLite doesn't support arrays
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  // Relations
+  user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessions      Session[]
+  reminders_rel Reminder[]
+
+  @@index([userId])
+  @@index([dueAt])
+  @@index([status])
+}
+
+model Session {
+  id          String      @id @default(uuid())
+  userId      String
+  taskId      String?
+  startAt     DateTime
+  endAt       DateTime?
+  type        SessionType
+  plannedMins Int
+  actualMins  Int? // null if ongoing
+  notes       String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  // Relations
+  user User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  task Task? @relation(fields: [taskId], references: [id], onDelete: SetNull)
+
+  @@index([userId, startAt])
+}
+
+model Reminder {
+  id        String          @id @default(uuid())
+  userId    String
+  taskId    String
+  channel   ReminderChannel
+  whenAt    DateTime
+  sentAt    DateTime?
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  task Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@index([userId, whenAt])
+}

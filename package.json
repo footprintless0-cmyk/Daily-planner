@@ -1,0 +1,15 @@
+{
+  "scripts": {
+    "dev": "cd apps/focusflow && npm run dev",
+    "build": "cd apps/focusflow && npm run build",
+    "start": "cd apps/focusflow && npm run start",
+    "lint": "cd apps/focusflow && npm run lint",
+    "test": "cd apps/focusflow && npm test"
+  },
+  "devDependencies": {
+    "prisma": "^6.16.3"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.16.3"
+  }
+}
