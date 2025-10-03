@@ -65,6 +65,7 @@ As a student or professional with multiple deadlines, exams, and meetings to man
 5. **Given** I am a new user, **When** I select a template (Student Planner or Business Sprint) during onboarding, **Then** I can create my first task within 45 seconds of selecting the template.
 6. **Given** I am in offline mode on a PWA-enabled device, **When** I use the quick-add feature to create a task, **Then** the task is saved locally and automatically syncs when connectivity is restored.
 7. **Given** I have tasks with upcoming due dates, **When** a task is due in 30 minutes, **Then** I receive a reminder notification within ±2 minutes of the due time.
+8. **Given** I am viewing the Math Revision task example, **When** I verify the ETA and timeLeft calculations, **Then** they match the expected values based on current time, estimate, spent time, and due date.
 
 ### Edge Cases
 - What happens when a user has hundreds of tasks and the drag-and-drop performance degrades?
@@ -84,7 +85,7 @@ As a student or professional with multiple deadlines, exams, and meetings to man
 - **FR-006**: System MUST provide a Calendar view showing tasks on their due dates with month/week/day options
 - **FR-007**: System MUST allow clicking on calendar events to open the task editor
 - **FR-008**: System MUST provide Pomodoro 25/5 minute timers and custom timers in the Focus Room
-- **FR-009**: System MUST display scenic backgrounds (images/videos) in the Focus Room
+- **FR-009**: System MUST display scenic backgrounds (images/videos) in the Focus Room with support for image caching and performance optimization
 - **FR-010**: System MUST create session records when timers complete in the Focus Room
 - **FR-011**: System MUST send due-soon and overdue reminders via Web Push notifications
 - **FR-012**: System MUST send due-soon and overdue reminders via Email
@@ -93,6 +94,11 @@ As a student or professional with multiple deadlines, exams, and meetings to man
 - **FR-015**: System MUST provide offline quick-add functionality with background sync when online
 - **FR-016**: System MUST allow users to export all their data as JSON format
 - **FR-017**: System MUST ensure account deletion cascades and removes all user-related content
+- **FR-018**: System MUST implement secure authentication with NextAuth sessions, CSP/HSTS/XFO headers, and CSRF protection on mutating actions
+- **FR-019**: System MUST meet WCAG AA accessibility standards for all user-facing components
+- **FR-020**: System MUST handle timezone differences correctly for due dates and reminders
+- **FR-021**: System MUST implement performance optimizations for drag-and-drop with 200+ cards at <100ms response time
+- **FR-022**: System MUST achieve Lighthouse Performance/PWA scores ≥ 90
 
 ### Key Entities *(include if feature involves data)*
 - **User**: Represents a registered user with email, name, timezone, and app settings
