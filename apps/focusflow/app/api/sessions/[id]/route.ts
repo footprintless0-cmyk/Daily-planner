@@ -1,15 +1,17 @@
 import { NextRequest } from 'next/server';
 import { auth } from '@/lib/auth';
 import { getSessionById, updateSession, deleteSession } from '@/lib/sessions';
-import { getServerSession } from 'next-auth';
 import { calculateSessionDuration, calculateEffectiveness } from '@/lib/sessions';
 
 // GET /api/sessions/[id]
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   const { id } = params;
+  
+  // In Next.js dynamic routes, the id parameter is guaranteed to be present
+  // Type assertion since we know it will always be a string
   try {
     // Authenticate the request
-    const session = await getServerSession(auth);
+    const session = await auth();
     if (!session || !session.user) {
       return new Response(
         JSON.stringify({ error: 'Unauthorized', details: 'Authentication required' }),
@@ -18,10 +20,10 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     }
 
     const userId = session.user.id;
-    const sessionId = params.id;
 
     // Get the session
-    const sessionData = await getSessionById(sessionId, userId);
+    // Using non-null assertion since we know id will always be a string in a dynamic route
+    const sessionData = await getSessionById(id, userId);
 
     if (!sessionData) {
       return new Response(
@@ -57,9 +59,12 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 // PUT /api/sessions/[id]
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   const { id } = params;
+  
+  // In Next.js dynamic routes, the id parameter is guaranteed to be present
+  // Type assertion since we know it will always be a string
   try {
     // Authenticate the request
-    const session = await getServerSession(auth);
+    const session = await auth();
     if (!session || !session.user) {
       return new Response(
         JSON.stringify({ error: 'Unauthorized', details: 'Authentication required' }),
@@ -68,10 +73,9 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     }
 
     const userId = session.user.id;
-    const sessionId = params.id;
 
     // Check if session exists
-    const existingSession = await getSessionById(sessionId, userId);
+    const existingSession = await getSessionById(id, userId);
     if (!existingSession) {
       return new Response(
         JSON.stringify({ error: 'Not found', details: 'The requested resource could not be found' }),
@@ -83,7 +87,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     const body = await req.json();
 
     // Update the session
-    const updatedSession = await updateSession(sessionId, userId, {
+    const updatedSession = await updateSession(id, userId, {
       endAt: body.endAt ? new Date(body.endAt) : undefined,
       actualMins: body.actualMins,
       notes: body.notes,
@@ -116,9 +120,12 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 // DELETE /api/sessions/[id]
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
   const { id } = params;
+  
+  // In Next.js dynamic routes, the id parameter is guaranteed to be present
+  // Type assertion since we know it will always be a string
   try {
     // Authenticate the request
-    const session = await getServerSession(auth);
+    const session = await auth();
     if (!session || !session.user) {
       return new Response(
         JSON.stringify({ error: 'Unauthorized', details: 'Authentication required' }),
@@ -127,10 +134,9 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
     }
 
     const userId = session.user.id;
-    const sessionId = params.id;
 
     // Check if session exists
-    const existingSession = await getSessionById(sessionId, userId);
+    const existingSession = await getSessionById(id, userId);
     if (!existingSession) {
       return new Response(
         JSON.stringify({ error: 'Not found', details: 'The requested resource could not be found' }),
@@ -139,7 +145,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
     }
 
     // Delete the session
-    const success = await deleteSession(sessionId, userId);
+    const success = await deleteSession(id, userId);
 
     if (!success) {
       return new Response(

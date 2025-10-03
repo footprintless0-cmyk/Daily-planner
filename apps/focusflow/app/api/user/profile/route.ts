@@ -1,13 +1,12 @@
 import { NextRequest } from 'next/server';
 import { auth } from '@/lib/auth';
 import { getUserById, updateUser } from '@/lib/users';
-import { getServerSession } from 'next-auth';
 
 // GET /api/user/profile
 export async function GET(req: NextRequest) {
   try {
     // Authenticate the request
-    const session = await getServerSession(auth);
+    const session = await auth();
     if (!session || !session.user) {
       return new Response(
         JSON.stringify({ error: 'Unauthorized', details: 'Authentication required' }),
@@ -55,7 +54,7 @@ export async function GET(req: NextRequest) {
 export async function PUT(req: NextRequest) {
   try {
     // Authenticate the request
-    const session = await getServerSession(auth);
+    const session = await auth();
     if (!session || !session.user) {
       return new Response(
         JSON.stringify({ error: 'Unauthorized', details: 'Authentication required' }),

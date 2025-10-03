@@ -1,13 +1,12 @@
 import { NextRequest } from 'next/server';
 import { auth } from '@/lib/auth';
 import { applyUserTemplate } from '@/lib/users';
-import { getServerSession } from 'next-auth';
 
 // POST /api/user/templates
 export async function POST(req: NextRequest) {
   try {
     // Authenticate the request
-    const session = await getServerSession(auth);
+    const session = await auth();
     if (!session || !session.user) {
       return new Response(
         JSON.stringify({ error: 'Unauthorized', details: 'Authentication required' }),

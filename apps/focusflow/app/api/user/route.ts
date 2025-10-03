@@ -1,13 +1,12 @@
 import { NextRequest } from 'next/server';
 import { auth } from '@/lib/auth';
 import { exportUserData, deleteUser, applyUserTemplate } from '@/lib/users';
-import { getServerSession } from 'next-auth';
 
 // GET /api/user/export
 export async function GET(req: NextRequest) {
   try {
     // Authenticate the request
-    const session = await getServerSession(auth);
+    const session = await auth();
     if (!session || !session.user) {
       return new Response(
         JSON.stringify({ error: 'Unauthorized', details: 'Authentication required' }),
@@ -40,7 +39,7 @@ export async function GET(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   try {
     // Authenticate the request
-    const session = await getServerSession(auth);
+    const session = await auth();
     if (!session || !session.user) {
       return new Response(
         JSON.stringify({ error: 'Unauthorized', details: 'Authentication required' }),

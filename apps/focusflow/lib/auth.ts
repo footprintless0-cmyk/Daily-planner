@@ -1,7 +1,5 @@
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
-import { JWTOptions } from 'next-auth/jwt';
-import { SessionOptions } from 'next-auth';
 
 // Add other providers as needed (Google, GitHub, etc.)
 
@@ -9,7 +7,7 @@ import { SessionOptions } from 'next-auth';
 // In production, consider using OAuth providers for better security
 
 export const {
-  handlers: { GET, POST },
+  handlers,
   auth,
   signIn,
   signOut,
@@ -58,13 +56,13 @@ export const {
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60, // 30 days
     updateAge: 24 * 60 * 60, // 24 hours
-  } as SessionOptions,
+  },
   jwt: {
     // Set to true for increased security
     maxAge: 30 * 24 * 60 * 60, // 30 days
-  } as JWTOptions,
+  },
   // Security settings
-  trustHost: true, // Only allow connections from trusted hosts
+  trustHost: true, // Allow connections from any host in development
   // Add additional security measures
   events: {
     // Add event handling for security logging if needed
